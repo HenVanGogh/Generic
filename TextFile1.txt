@@ -1,0 +1,208 @@
+	if (which <= 2) {
+		float positionC = servos1.position((which * 10) + who);
+		getOrientationMain();
+		getOrientationCal1;
+		float previousPos;
+
+		previousPos = MainYgyro - Cal1Ygyro;
+
+		if (MainYgyro > 45) {
+#ifdef debugMode
+			Serial.print("Good calibration angle"); Serial.println(MainYgyro);
+#endif
+			for (int i = 0; i < 500; i++) {
+				servos1.move((which * 10) + who, positionC + (50 / i));
+				delay(1);
+			}
+			getOrientationMain();
+			getOrientationCal1;
+			int t = beginingMove;
+			int baseVal; //= positionC - t;
+
+			if (MainYgyro - Cal1Ygyro > 90) {
+				if (MainYgyro - Cal1Ygyro > previousPos) {
+					//Wrong we need to turn counterClockWise
+					while((MainYgyro - Cal1Ygyro > 90 - marginOfError
+						&& MainYgyro - Cal1Ygyro < 90 + marginOfError)){
+						
+						servos1.move((which * 10) + who, positionC - t);
+						getOrientationMain();
+						getOrientationCal1;
+						t++;
+						delay(1);
+					}
+					
+
+				}
+				else {
+					//Right we need to continue to turn clockWise
+					while ((MainYgyro - Cal1Ygyro > 90 - marginOfError
+						&& MainYgyro - Cal1Ygyro < 90 + marginOfError)) {
+
+						servos1.move((which * 10) + who, positionC - t);
+						getOrientationMain();
+						getOrientationCal1;
+						t--;
+						delay(1);
+					}
+				}
+			}
+			else {
+				if (MainYgyro - Cal1Ygyro < previousPos) {
+					//Right
+					while ((MainYgyro - Cal1Ygyro > 90 - marginOfError
+						&& MainYgyro - Cal1Ygyro < 90 + marginOfError)) {
+
+						servos1.move((which * 10) + who, positionC - t);
+						getOrientationMain();
+						getOrientationCal1;
+						t--;
+						delay(1);
+					}
+				}
+				else {
+					//Wrong
+					while ((MainYgyro - Cal1Ygyro > 90 - marginOfError
+						&& MainYgyro - Cal1Ygyro < 90 + marginOfError)) {
+
+						servos1.move((which * 10) + who, positionC - t);
+						getOrientationMain();
+						getOrientationCal1;
+						t++;
+						delay(1);
+					}
+				}
+			}
+
+			
+			baseVal = positionC - t;
+			int baseValTable[repetytions];
+			int sum;
+			for (int i = 0; i < repetytions; i++) {
+				t = baseVal + 10;
+				while ((MainYgyro - Cal1Ygyro > 90 - marginOfError
+					&& MainYgyro - Cal1Ygyro < 90 + marginOfError)) {
+
+					servos1.move((which * 10) + who, t);
+					getOrientationMain();
+					getOrientationCal1;
+					t--;
+					delay(1);
+				}
+			   sum = sum + t;
+
+			}
+			return(sum / repetytions);
+					
+			}
+		else {
+#ifdef debugMode
+			Serial.print("Bad calibration angle"); Serial.println(MainYgyro);
+#endif
+		}
+
+		}
+	
+	if (which > 2) {
+		float positionC = servos2.position((which * 10) + who);
+		getOrientationMain();
+		getOrientationCal1;
+		float previousPos;
+
+		previousPos = MainYgyro - Cal1Ygyro;
+
+		if (MainYgyro > 45) {
+#ifdef debugMode
+			Serial.print("Good calibration angle"); Serial.println(MainYgyro);
+#endif
+			for (int i = 0; i < 500; i++) {
+				servos2.move((which * 10) + who, positionC + (50 / i));
+				delay(1);
+			}
+			getOrientationMain();
+			getOrientationCal1;
+			int t = beginingMove;
+			int baseVal; //= positionC - t;
+
+			if (MainYgyro - Cal1Ygyro > 90) {
+				if (MainYgyro - Cal1Ygyro > previousPos) {
+					//Wrong we need to turn counterClockWise
+					while ((MainYgyro - Cal1Ygyro > 90 - marginOfError
+						&& MainYgyro - Cal1Ygyro < 90 + marginOfError)) {
+
+						servos2.move((which * 10) + who, positionC - t);
+						getOrientationMain();
+						getOrientationCal1;
+						t++;
+						delay(1);
+					}
+
+
+				}
+				else {
+					//Right we need to continue to turn clockWise
+					while ((MainYgyro - Cal1Ygyro > 90 - marginOfError
+						&& MainYgyro - Cal1Ygyro < 90 + marginOfError)) {
+
+						servos2.move((which * 10) + who, positionC - t);
+						getOrientationMain();
+						getOrientationCal1;
+						t--;
+						delay(1);
+					}
+				}
+			}
+			else {
+				if (MainYgyro - Cal1Ygyro < previousPos) {
+					//Right
+					while ((MainYgyro - Cal1Ygyro > 90 - marginOfError
+						&& MainYgyro - Cal1Ygyro < 90 + marginOfError)) {
+
+						servos2.move((which * 10) + who, positionC - t);
+						getOrientationMain();
+						getOrientationCal1;
+						t--;
+						delay(1);
+					}
+				}
+				else {
+					//Wrong
+					while ((MainYgyro - Cal1Ygyro > 90 - marginOfError
+						&& MainYgyro - Cal1Ygyro < 90 + marginOfError)) {
+
+						servos2.move((which * 10) + who, positionC - t);
+						getOrientationMain();
+						getOrientationCal1;
+						t++;
+						delay(1);
+					}
+				}
+			}
+
+
+			baseVal = positionC - t;
+			int baseValTable[repetytions];
+			int sum;
+			for (int i = 0; i < repetytions; i++) {
+				t = baseVal + 10;
+				while ((MainYgyro - Cal1Ygyro > 90 - marginOfError
+					&& MainYgyro - Cal1Ygyro < 90 + marginOfError)) {
+
+					servos2.move((which * 10) + who, t);
+					getOrientationMain();
+					getOrientationCal1;
+					t--;
+					delay(1);
+				}
+				sum = sum + t;
+
+			}
+			return(sum / repetytions);
+
+		}
+		else {
+#ifdef debugMode
+			Serial.print("Bad calibration angle"); Serial.println(MainYgyro);
+#endif
+		}
+	}
